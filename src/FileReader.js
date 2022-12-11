@@ -12,5 +12,3 @@ const FileReader = {
 };
 
 module.exports = FileReader;
-
-FileReader('frontend', console.log);
