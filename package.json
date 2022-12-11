@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/ukkodeveloper/java-pairmatching-precourse#readme",
   "dependencies": {
-    "@woowacourse/mission-utils": "^1.0.6"
+    "@woowacourse/mission-utils": "^1.0.6",
+    "jest": "^29.3.1"
   }
 }
