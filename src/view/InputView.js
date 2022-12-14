@@ -1,32 +1,45 @@
 const { Console } = require('@woowacourse/mission-utils');
-const INPUT_FORMAT = require('./inputFormat');
+const InputValidator = require('./InputValidator');
+const { INPUT_MESSAGES } = require('./messages');
 
-const validateInput = (inputType) => (input) => {
-  if (!INPUT_FORMAT[inputType].regex.test(input))
-    throw new Error(INPUT_FORMAT[inputType].error);
-  return;
-};
-
-const reRead = (errorMessage, readingFunction, callback) => {
-  Console.print(errorMessage);
-  readingFunction(callback);
-};
-
-const readFor = (inputType) => (callback) => {
-  Console.readLine(INPUT_FORMAT[inputType].message, (input) => {
-    try {
-      validateInput(inputType)(input);
-      callback(input);
-    } catch (error) {
-      reRead(error.message, read(inputType), callback);
-    }
-  });
+const reRead = (error, readFunction, readingHandler) => {
+  Console.print(error.message);
+  readFunction(readingHandler);
 };
 
 const InputView = {
-  readFeature: readFor('feature'),
-  readMission: readFor('message'),
-  readRematch: readFor('rematch'),
+  readFeature(readingHandler) {
+    Console.readLine(INPUT_MESSAGES.feature, (input) => {
+      try {
+        InputValidator.checkFeature(input);
+        readingHandler(input);
+      } catch (error) {
+        reRead(error, InputView.readFeature, readingHandler);
+      }
+    });
+  },
+
+  readMission(readingHandler) {
+    Console.readLine(INPUT_MESSAGES.mission, (input) => {
+      try {
+        InputValidator.checkMatching(input);
+        readingHandler(input);
+      } catch (error) {
+        reRead(error, InputView.readMission, readingHandler);
+      }
+    });
+  },
+
+  readRematch(readingHandler) {
+    Console.readLine(INPUT_MESSAGES.rematch, (input) => {
+      try {
+        InputValidator.checkRematching(input);
+        readingHandler(input);
+      } catch (error) {
+        reRead(error, InputView.readRematch, readingHandler);
+      }
+    });
+  },
 };
 
 module.exports = InputView;

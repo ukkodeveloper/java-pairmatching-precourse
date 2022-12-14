@@ -1,4 +1,3 @@
-const { FEATURES } = require('../constants');
 const WoowaTechCourse = require('../domain/WoowaTechCourse');
 const InputView = require('../view/inputView');
 const OutputView = require('../view/outputView');
@@ -16,6 +15,7 @@ class Controller {
 
   execute() {
     //TODO: #input -> feature 입력 받기 --> handleFeature
+    this.#inputView.readFeature(this.#handleFeature.bind(this));
   }
 
   #handleFeature(feature) {
@@ -30,24 +30,27 @@ class Controller {
   }
 
   #matchPeers() {
-    //TODO: #model -> course, mission, level 정보를 가져온다.
-    //TODO: #output -> 존재하는 과정과 미션에 대해 출력한다.
+    this.#outputView.printMissionBoard();
     //TODO: #input -> 과정,레벨, 미션을 입력받는다. --> handleMissionSelection
+    this.#inputView.readMission(this.#handleMissionSelection.bind(this));
   }
 
-  #handleMissionSelection(course, level, mission) {
-    //TODO: #model -> 해당 mission이 있는지 확인한다.
-    //TODO: if) 있으면
+  #handleMissionSelection(missionSelection) {
+    const [course, level, mission] = this.#splitToDetail(missionSelection);
     if (this.#woowaTechCourse.checkExisting(course, level, mission)) {
-      return; //TODO: #input -> 새로운 매치여부를 묻는다 --> handleRematch
+      this.#inputView.readRematch(this.#handleRematch.bind(this));
+      return;
     }
     //TODO: if) 기존에 없으면
     //TODO: 기존에 있는지 여부에 따라
     //TODO: #model -> match한다.
     //TODO: #output -> match된 결과를 출력한다
     //TODO: #input -> feature 입력 받기 --> handleFeature
-
     return; //TODO: #input -> 과정,레벨, 미션을 입력받는다. --> handleMissionSelection
+  }
+
+  #splitToDetail(missionSelection) {
+    return missionSelection.split(',').replace(/ /g, '');
   }
 
   #handleRematch(command) {

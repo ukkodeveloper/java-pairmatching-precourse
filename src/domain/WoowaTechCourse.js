@@ -8,6 +8,10 @@ class WoowaTechCourse {
     [this.#backendCrew, this.#frontendCrew] = this.#read();
   }
 
+  checkMission(course, level, mission) {
+    console.log('course, level, mission', course, level, mission);
+  }
+
   #read() {
     return [
       fs.readFileSync('resources/backend-crew.md', 'utf-8').split('\n'),
