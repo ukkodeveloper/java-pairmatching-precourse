@@ -1,6 +1,5 @@
 const { FEATURES } = require('../constants');
 const WoowaTechCourse = require('../domain/WoowaTechCourse');
-const PairMatching = require('../domain/WoowaTechCourse');
 const InputView = require('../view/inputView');
 const OutputView = require('../view/outputView');
 
@@ -16,7 +15,6 @@ class Controller {
   }
 
   execute() {
-    //TODO: #model -> 크루명 파일 읽고 속성에 저장하기
     //TODO: #input -> feature 입력 받기 --> handleFeature
   }
 
