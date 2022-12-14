@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/ukkodeveloper/java-pairmatching-precourse#readme",
   "dependencies": {
-    "@woowacourse/mission-utils": "^1.0.6",
+    "@woowacourse/mission-utils": "^1.0.6"
+  },
+  "devDependencies": {
     "jest": "^29.3.1"
   }
 }

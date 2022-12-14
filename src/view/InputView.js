@@ -1,35 +1,32 @@
-const InputValidator = require('./InputValidator');
 const { Console } = require('@woowacourse/mission-utils');
-const { FEATURES, REMATCH } = require('../constants');
+const INPUT_FORMAT = require('./inputFormat');
 
-const MESSAGE = {
-  feature: `기능을 선택하세요.\n${FEATURES.match}. 페어 매칭\n${FEATURES.search}. 페어 조회\n${FEATURES.init}. 페어 초기화\n${FEATURES.quit}. 종료\n`,
-  selection: '과정, 레벨, 미션을 선택하세요.\nex) 백엔드, 레벨1, 자동차경주\n',
-  rematch: `매칭 정보가 있습니다. 다시 매칭하시겠습니까?\n${REMATCH.true} | ${REMATCH.false}\n`,
+const validateInput = (inputType) => (input) => {
+  if (!INPUT_FORMAT[inputType].regex.test(input))
+    throw new Error(INPUT_FORMAT[inputType].error);
+  return;
 };
 
-const reRead = (error, callback, input) => {
-  Console.print(error);
-  return callback(input);
+const reRead = (errorMessage, readingFunction, callback) => {
+  Console.print(errorMessage);
+  readingFunction(callback);
 };
 
-const read = (message) => (callback) => {
-  Console.readLine(message, (input) => {
+const readFor = (inputType) => (callback) => {
+  Console.readLine(INPUT_FORMAT[inputType].message, (input) => {
     try {
-      InputValidator(input);
+      validateInput(inputType)(input);
       callback(input);
     } catch (error) {
-      reRead(error, callback, input);
+      reRead(error.message, read(inputType), callback);
     }
   });
 };
 
 const InputView = {
-  readFeature: read(MESSAGE.feature),
-
-  readSelection: read(MESSAGE.selection),
-
-  readRematch: read(MESSAGE.rematch),
+  readFeature: readFor('feature'),
+  readMission: readFor('message'),
+  readRematch: readFor('rematch'),
 };
 
 module.exports = InputView;
