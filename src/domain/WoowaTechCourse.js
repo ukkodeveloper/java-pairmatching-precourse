@@ -204,10 +204,4 @@ class WoowaTechCourse {
   }
 }
 
-const woowa = new WoowaTechCourse();
-console.log('BackPairs', BackPairs);
-
-woowa.init();
-console.log('BackPairs', BackPairs);
-
 module.exports = WoowaTechCourse;

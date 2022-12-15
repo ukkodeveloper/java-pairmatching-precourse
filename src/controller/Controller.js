@@ -94,6 +94,7 @@ class Controller {
   #initAllMatched() {
     this.#woowaTechCourse.init();
     this.#outputView.printInit();
+    this.#inputView.readFeature(this.#handleFeature.bind(this));
   }
 
   #quit() {
