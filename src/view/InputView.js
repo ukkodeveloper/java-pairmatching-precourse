@@ -14,7 +14,7 @@ const InputView = {
         InputValidator.checkFeature(input);
         readingHandler(input);
       } catch (error) {
-        reRead(error, InputView.readFeature, readingHandler);
+        reRead(error, this.readFeature.bind(InputView), readingHandler);
       }
     });
   },
@@ -23,9 +23,9 @@ const InputView = {
     Console.readLine(INPUT_MESSAGES.mission, (input) => {
       try {
         InputValidator.checkMatching(input);
-        readingHandler(input);
+        readingHandler(this.preprocessMissionInput(input));
       } catch (error) {
-        reRead(error, InputView.readMission, readingHandler);
+        reRead(error, this.readMission.bind(InputView), readingHandler);
       }
     });
   },
@@ -36,9 +36,13 @@ const InputView = {
         InputValidator.checkRematching(input);
         readingHandler(input);
       } catch (error) {
-        reRead(error, InputView.readRematch, readingHandler);
+        reRead(error, this.readRematch.bind(InputView), readingHandler);
       }
     });
+  },
+
+  preprocessMissionInput(input) {
+    return input.replace(/ /g, '').split(',');
   },
 };
 
