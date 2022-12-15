@@ -40,11 +40,11 @@ class WoowaTechCourse {
   }
 
   #checkBackendMatching(level, mission) {
-    if (FrontPairs?.[level]?.[mission] === undefined) {
+    if (BackPairs?.[level]?.[mission] === undefined) {
       throw new Error(`[개발자] DB에 해당 미션을 접근할 수 없습니다.`);
     }
 
-    if (FrontPairs[level][mission].length === 0) return false;
+    if (BackPairs[level][mission].length === 0) return false;
 
     return true;
   }
@@ -125,7 +125,7 @@ class WoowaTechCourse {
     const isRepeat = false;
     onePairs.forEach(([oneMember, otherMember]) => {
       otherPairs.forEach((pair) => {
-        if (pair.incldues(oneMember) && pair.incldues(otherMember)) isRepeat = true;
+        if (pair.incldues(oneMember) && pair.includes(otherMember)) isRepeat = true;
       });
     });
     return isRepeat;
@@ -164,6 +164,22 @@ class WoowaTechCourse {
       FrontPairs[level][mission] = [];
     }
   }
+
+  search(course, level, mission) {
+    if (!this.checkExisting(course, level, mission)) {
+      throw new Error(`[ERROR] 매칭 이력이 없습니다.\n`);
+    }
+
+    if (course === COURSES.back) {
+      return BackPairs[level][mission];
+    }
+
+    if (course === COURSES.front) {
+      return FrontPairs[level][mission];
+    }
+  }
 }
+
+const woowa = new WoowaTechCourse();
 
 module.exports = WoowaTechCourse;
