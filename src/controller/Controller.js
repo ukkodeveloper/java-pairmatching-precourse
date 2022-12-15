@@ -77,19 +77,27 @@ class Controller {
 
   #searchMatched() {
     //TODO: #input -> 과정,레벨, 미션을 입력받는다. --> handleSearching
+    this.#inputView.readMission(this.#handleSearching.bind(this));
   }
 
-  #handleSearching(course, level, mission) {
-    //TODO: #model -> 해당 mission이 있는지 확인하고 출력한다.
+  #handleSearching([course, level, mission]) {
+    try {
+      const pairSearched = this.#woowaTechCourse.search(course, level, mission);
+      this.#outputView.printMatchResult(pairSearched);
+    } catch (error) {
+      OutputView.printError(error);
+      OutputView.close();
+    }
+    this.#inputView.readFeature(this.#handleFeature.bind(this));
   }
 
   #initAllMatched() {
-    //TODO: #model -> 모든 매칭된 결과를 초기화한다.
-    //TODO: #output -> "초기화되었습니다."
+    this.#woowaTechCourse.init();
+    this.#outputView.printInit();
   }
 
   #quit() {
-    //TODO: #output -> console을 닫는다.
+    this.#outputView.close();
   }
 }
 

@@ -30,6 +30,10 @@ const OutputView = {
   printError(error) {
     Console.print(error.message);
   },
+
+  printInit() {
+    Console.print('\n초기화 되었습니다.\n');
+  },
 };
 
 module.exports = OutputView;

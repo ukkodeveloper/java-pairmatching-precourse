@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { COURSES } = require('../course.constants');
 const BackPairs = require('../storage/BackPairs');
-const FrontPairs = require('../storage/BackPairs');
+const FrontPairs = require('../storage/FrontPairs');
 const Crews = require('./crews');
 const MatchingSystem = require('./MatchingSystem');
 const Shuffler = require('./Shuffler');
@@ -11,6 +11,7 @@ class WoowaTechCourse {
   #frontendCrews;
   #matchingSystem;
   #countCache;
+  #initialPairs;
 
   constructor() {
     const [backendCrews, frontendCrews] = this.#read();
@@ -19,7 +20,13 @@ class WoowaTechCourse {
 
     this.#matchingSystem = MatchingSystem;
 
+    this.#saveInitialPairs();
+
     this.#countCache = 0;
+  }
+
+  #saveInitialPairs() {
+    this.#initialPairs = [{ ...BackPairs }, { ...FrontPairs }];
   }
 
   #read() {
@@ -64,7 +71,7 @@ class WoowaTechCourse {
 
     if (this.#countCache === 4) throw new Error(`[ERROR] 페어 매칭에 실패했습니다.`);
 
-    if (this.#checkIsRepeated({ matchResult, course, level, mission })) {
+    if (this.#checkIsRepeated(matchResult, course, level, mission)) {
       this.#countCache += 1;
       return this.peerMatch();
     }
@@ -117,15 +124,11 @@ class WoowaTechCourse {
     return false;
   }
 
-  handleFindingRepeat(mission) {
-    return;
-  }
-
   #compareToFindRepeat(onePairs, otherPairs) {
     const isRepeat = false;
     onePairs.forEach(([oneMember, otherMember]) => {
       otherPairs.forEach((pair) => {
-        if (pair.incldues(oneMember) && pair.includes(otherMember)) isRepeat = true;
+        if (pair.includes(oneMember) && pair.includes(otherMember)) isRepeat = true;
       });
     });
     return isRepeat;
@@ -158,10 +161,12 @@ class WoowaTechCourse {
   initMatching(course, level, mission) {
     if (course === COURSES.back) {
       BackPairs[level][mission] = [];
+      return;
     }
 
     if (course === COURSES.front) {
       FrontPairs[level][mission] = [];
+      return;
     }
   }
 
@@ -178,8 +183,31 @@ class WoowaTechCourse {
       return FrontPairs[level][mission];
     }
   }
+
+  init() {
+    this.#initPairs(BackPairs);
+    this.#initPairs(FrontPairs);
+  }
+
+  #initPairs(pairsDB) {
+    Object.keys(pairsDB).forEach((level) => {
+      if (Object.keys(pairsDB[level]).length !== 0) {
+        this.#initMission(pairsDB[level]);
+      }
+    });
+  }
+
+  #initMission(level) {
+    Object.keys(level).forEach((mission) => {
+      level[mission] = [];
+    });
+  }
 }
 
 const woowa = new WoowaTechCourse();
+console.log('BackPairs', BackPairs);
+
+woowa.init();
+console.log('BackPairs', BackPairs);
 
 module.exports = WoowaTechCourse;
