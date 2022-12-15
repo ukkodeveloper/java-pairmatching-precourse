@@ -154,6 +154,16 @@ class WoowaTechCourse {
       Shuffler.shuffle(this.#frontendCrews.length)
     );
   }
+
+  initMatching(course, level, mission) {
+    if (course === COURSES.back) {
+      BackPairs[level][mission] = [];
+    }
+
+    if (course === COURSES.front) {
+      FrontPairs[level][mission] = [];
+    }
+  }
 }
 
 module.exports = WoowaTechCourse;

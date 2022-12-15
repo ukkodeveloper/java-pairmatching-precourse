@@ -1,4 +1,4 @@
-const { FEATURES } = require('../command.constants');
+const { FEATURES, COMMANDS } = require('../command.constants');
 const WoowaTechCourse = require('../domain/WoowaTechCourse');
 const InputView = require('../view/inputView');
 const OutputView = require('../view/outputView');
@@ -39,9 +39,13 @@ class Controller {
   #handleMissionSelection([course, level, mission]) {
     //TODO: 기존에 있는지 여부에 따라
     if (this.#woowaTechCourse.checkExisting(course, level, mission)) {
-      return this.#inputView.readRematch(this.#handleRematch.bind(this));
+      return this.#inputView.readRematch(this.#handleRematch(course, level, mission).bind(this));
     }
 
+    this.#proceedMatching(course, level, mission);
+  }
+
+  #proceedMatching(course, level, mission) {
     try {
       const matchingResult = this.#woowaTechCourse.peerMatch(course, level, mission);
       this.#outputView.printMatchResult(matchingResult);
@@ -52,9 +56,17 @@ class Controller {
     }
   }
 
-  #handleRematch(command) {
-    if (command === COMMAND.false) {
-    } //TODO: #input -> 과정, 레벨, 미션 입력 받는다. --> handleMissionSelection
+  #handleRematch(course, level, mission) {
+    return (command) => {
+      if (command === COMMANDS.true) {
+        this.#woowaTechCourse.initMatching(course, level, mission);
+        return this.#proceedMatching(course, level, mission);
+      }
+
+      this.#inputView.readMission(this.#handleMissionSelection.bind(this));
+    };
+
+    //TODO: #input -> 과정, 레벨, 미션 입력 받는다. --> handleMissionSelection
 
     //TODO: if) 네
     //TODO: #model -> 해당 매칭된 미션을 초기화한다.
