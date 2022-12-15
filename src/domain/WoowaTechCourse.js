@@ -11,7 +11,6 @@ class WoowaTechCourse {
   #frontendCrews;
   #matchingSystem;
   #countCache;
-  #initialPairs;
 
   constructor() {
     const [backendCrews, frontendCrews] = this.#read();
@@ -20,13 +19,7 @@ class WoowaTechCourse {
 
     this.#matchingSystem = MatchingSystem;
 
-    this.#saveInitialPairs();
-
     this.#countCache = 0;
-  }
-
-  #saveInitialPairs() {
-    this.#initialPairs = [{ ...BackPairs }, { ...FrontPairs }];
   }
 
   #read() {
@@ -98,7 +91,7 @@ class WoowaTechCourse {
       return this.#checkRepeatedPairInBackend(matchResult, level, mission);
     }
     if (course === COURSES.front) {
-      return his.#checkRepeatedPairInFrontend(matchResult, level, mission);
+      return this.#checkRepeatedPairInFrontend(matchResult, level, mission);
     }
   }
 
@@ -197,9 +190,9 @@ class WoowaTechCourse {
     });
   }
 
-  #initMission(level) {
-    Object.keys(level).forEach((mission) => {
-      level[mission] = [];
+  #initMission(pairsByLevel) {
+    Object.keys(pairsByLevel).forEach((mission) => {
+      pairsByLevel[mission] = [];
     });
   }
 }

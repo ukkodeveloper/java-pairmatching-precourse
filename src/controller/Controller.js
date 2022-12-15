@@ -15,12 +15,10 @@ class Controller {
   }
 
   execute() {
-    //TODO: #input -> feature 입력 받기 --> handleFeature
     this.#inputView.readFeature(this.#handleFeature.bind(this));
   }
 
   #handleFeature(feature) {
-    //TODO: Feature 별 분류하기
     if (feature === FEATURES.match) return this.#matchPeers();
 
     if (feature === FEATURES.search) return this.#searchMatched();
@@ -32,7 +30,6 @@ class Controller {
 
   #matchPeers() {
     this.#outputView.printMissionBoard();
-    //TODO: #input -> 과정,레벨, 미션을 입력받는다. --> handleMissionSelection
     this.#inputView.readMission(this.#handleMissionSelection.bind(this));
   }
 
@@ -65,18 +62,9 @@ class Controller {
 
       this.#inputView.readMission(this.#handleMissionSelection.bind(this));
     };
-
-    //TODO: #input -> 과정, 레벨, 미션 입력 받는다. --> handleMissionSelection
-
-    //TODO: if) 네
-    //TODO: #model -> 해당 매칭된 미션을 초기화한다.
-    //TODO: #model -> match한다.
-    //TODO: #output -> match된 결과를 출력한다
-    //TODO: #input -> feature 입력 받기 --> handleFeature
   }
 
   #searchMatched() {
-    //TODO: #input -> 과정,레벨, 미션을 입력받는다. --> handleSearching
     this.#inputView.readMission(this.#handleSearching.bind(this));
   }
 
