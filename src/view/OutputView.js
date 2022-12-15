@@ -11,8 +11,24 @@ const OutputView = {
     - 레벨5: 
   ############################################`,
 
+  printMatchResult(result) {
+    Console.print('\n페어 매칭 결과입니다.');
+    result.forEach((pair) => {
+      Console.print(`${pair.join(' : ')}`);
+    });
+    Console.print('\n');
+  },
+
   printMissionBoard() {
     Console.print(this.missionBoard);
+  },
+
+  close() {
+    Console.close();
+  },
+
+  printError(error) {
+    Console.print(error.message);
   },
 };
 

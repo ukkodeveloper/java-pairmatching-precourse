@@ -37,17 +37,19 @@ class Controller {
   }
 
   #handleMissionSelection([course, level, mission]) {
+    //TODO: 기존에 있는지 여부에 따라
     if (this.#woowaTechCourse.checkExisting(course, level, mission)) {
       return this.#inputView.readRematch(this.#handleRematch.bind(this));
     }
 
-    return this.#woowaTechCourse.peerMatch(course, level, mission);
-    //TODO: if) 기존에 없으면
-    //TODO: 기존에 있는지 여부에 따라
-    //TODO: #model -> match한다.
-    //TODO: #output -> match된 결과를 출력한다
-    //TODO: #input -> feature 입력 받기 --> handleFeature
-    return; //TODO: #input -> 과정,레벨, 미션을 입력받는다. --> handleMissionSelection
+    try {
+      const matchingResult = this.#woowaTechCourse.peerMatch(course, level, mission);
+      this.#outputView.printMatchResult(matchingResult);
+      this.#inputView.readFeature(this.#handleFeature.bind(this));
+    } catch (error) {
+      OutputView.printError(error);
+      OutputView.close();
+    }
   }
 
   #handleRematch(command) {

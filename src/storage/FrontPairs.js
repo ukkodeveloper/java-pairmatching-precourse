@@ -1,11 +1,11 @@
-const BackendStorage = {
+const FrontPairs = {
   레벨1: {
     자동차경주: [],
     로또: [],
     숫자야구게임: [],
   },
   레벨2: {
-    장바구니: ['rb'],
+    장바구니: [],
     결제: [],
     지하철노선도: [],
   },
@@ -17,4 +17,4 @@ const BackendStorage = {
   레벨5: {},
 };
 
-module.exports = BackendStorage;
+module.exports = FrontPairs;

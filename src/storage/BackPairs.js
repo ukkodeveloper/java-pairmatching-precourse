@@ -1,4 +1,4 @@
-const FrontendStorage = {
+const BackPairs = {
   레벨1: {
     자동차경주: [],
     로또: [],
@@ -17,4 +17,4 @@ const FrontendStorage = {
   레벨5: {},
 };
 
-module.exports = FrontendStorage;
+module.exports = BackPairs;
