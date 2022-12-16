@@ -1,11 +1,10 @@
-const { FEATURES, COMMANDS } = require('../command.constants'); //?
+const { FEATURES, COMMANDS } = require('../command.constants');
 const { LEVELS, COURSES, MISSIONS } = require('../course.constants');
 
 const InputValidator = Object.freeze({
   checkFeature(input) {
     const featureRegex = new RegExp(`^(?:${Object.values(FEATURES).join('|')})$`);
 
-    //FIXME: 프리티어
     if (!featureRegex.test(input.trim())) {
       throw new Error(
         `[ERROR] 기능 선택 시 ${Object.values(FEATURES).join(', ')}만 입력 가능합니다.`

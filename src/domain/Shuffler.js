@@ -7,6 +7,6 @@ const Shuffler = {
   },
 };
 
-Shuffler.shuffle(11); //?
+Shuffler.shuffle(11);
 
 module.exports = Shuffler;

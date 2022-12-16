@@ -11,6 +11,4 @@ class Crews extends Array {
   }
 }
 
-const crews = new Crews(['백호', '태웅', '치수', '치환', '유권']);
-
 module.exports = Crews;

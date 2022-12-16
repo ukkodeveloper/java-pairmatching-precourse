@@ -33,8 +33,7 @@ class Controller {
     this.#inputView.readMission(this.#handleMissionSelection.bind(this));
   }
 
-  #handleMissionSelection([course, level, mission]) {
-    //TODO: 기존에 있는지 여부에 따라
+  #handleMissionSelection(course, level, mission) {
     if (this.#woowaTechCourse.checkExisting(course, level, mission)) {
       return this.#inputView.readRematch(this.#handleRematch(course, level, mission).bind(this));
     }
@@ -48,8 +47,8 @@ class Controller {
       this.#outputView.printMatchResult(matchingResult);
       this.#inputView.readFeature(this.#handleFeature.bind(this));
     } catch (error) {
-      OutputView.printError(error);
-      OutputView.close();
+      this.#outputView.printError(error);
+      this.#quit();
     }
   }
 
@@ -68,14 +67,15 @@ class Controller {
     this.#inputView.readMission(this.#handleSearching.bind(this));
   }
 
-  #handleSearching([course, level, mission]) {
+  #handleSearching(course, level, mission) {
     try {
       const pairSearched = this.#woowaTechCourse.search(course, level, mission);
       this.#outputView.printMatchResult(pairSearched);
     } catch (error) {
-      OutputView.printError(error);
-      OutputView.close();
+      this.#outputView.printError(error);
+      this.#quit();
     }
+
     this.#inputView.readFeature(this.#handleFeature.bind(this));
   }
 

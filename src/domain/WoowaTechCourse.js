@@ -118,7 +118,7 @@ class WoowaTechCourse {
   }
 
   #compareToFindRepeat(onePairs, otherPairs) {
-    const isRepeat = false;
+    let isRepeat = false;
     onePairs.forEach(([oneMember, otherMember]) => {
       otherPairs.forEach((pair) => {
         if (pair.includes(oneMember) && pair.includes(otherMember)) isRepeat = true;
@@ -172,9 +172,7 @@ class WoowaTechCourse {
       return BackPairs[level][mission];
     }
 
-    if (course === COURSES.front) {
-      return FrontPairs[level][mission];
-    }
+    return FrontPairs[level][mission];
   }
 
   init() {
